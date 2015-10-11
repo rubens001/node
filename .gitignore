@@ -139,3 +139,4 @@ node
 **/node_modules
 lib
 bower_components
+**/bower_components

@@ -1,0 +1,17 @@
+{
+  "name": "mysql2rest",
+  "version": "1.0.0",
+  "description": "MySQL to Rest Project",
+  "author": "Rubens Zanatta",
+  "license": "ISC",
+  "homepage": "https://github.com/rubenszanatta/mysql2rest",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rubenszanatta/repository.git"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "mysql": "^2.9.0",
+    "mysql-to-rest": "^1.0.3"
+  }
+}
