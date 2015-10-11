@@ -4,10 +4,10 @@
   "description": "MongoDB Project",
   "author": "Rubens Zanatta",
   "license": "ISC",
-  "homepage": "https://github.com/rubenszanatta/mongodb",
+  "homepage": "https://github.com/rubens001/node",
   "repository": {
     "type": "git",
-    "url": "git://github.com/rubenszanatta/repository.git"
+    "url": "git@github.com:rubens001/node.git"
   },
   "dependencies": {
     "mongodb": "~2.0",
