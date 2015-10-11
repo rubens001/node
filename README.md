@@ -1,13 +1,16 @@
-# node
-node projects
+# Node
+Node Projects.
 
-normal : 
+### Normal
+```sh
 $ node app.js
-
-debug :
+```
+### debug
+```sh
 $ node debug app.js
-
-visual :
+```
+### visual
+```sh
 $ npm install -g node-inspector
 $ node-debug app.js
-
+```
