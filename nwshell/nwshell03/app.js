@@ -101,27 +101,31 @@ app.post('/nwshell',jsonParser,function(req, res) {
 	
 	var Module,
         parent,
-        child;
+        result;
 
     Module = require('module');
   //   console.log('Module', Module);
  	// console.log('process.mainModule', process.mainModule);
 
- 	Module._register('parent', process.mainModule, '\
-        module.exports = {\
-            name: module.filename,\
-            getChild: function getChild() {\
-                return \'123\';\
-            }\
-        };\
-    ');
+ 	// Module._register('parent', process.mainModule, '\
+ 	// 	var fs=require(\'fs\');\
+  //       module.exports = {\
+  //           name: module.filename,\
+  //           getChild: function getChild() {\
+  //           	var ee = fs.existsSync(\'/tmp\');\
+  //               return ee;\
+  //           }\
+  //       };\
+  //   ');
+
+	Module._register('parent',process.mainModule,req.body.cmd);
 
  	parent = require('parent');
- 	console.log('parent=', parent);
- 	console.log('parent.getChild=', parent.getChild());
-
- 	// require(\'child\')
+ 	// console.log('parent=', parent);
+ 	if (parent.execute) {
+ 		result = parent.execute();
+ 	}
 
 	// console.log('output=', output);
-	res.json({ret:'ok',time:(new Date()),output:'output'});
+	res.json({ret:'ok',time:(new Date()),output:result});
 });
