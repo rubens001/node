@@ -1,0 +1,16 @@
+{
+  "name": "mongodb",
+  "version": "1.0.0",
+  "description": "MongoDB Project",
+  "author": "Rubens Zanatta",
+  "license": "ISC",
+  "homepage": "https://github.com/rubens001/node",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rubens001/node.git"
+  },
+  "dependencies": {
+    "mongodb": "~2.0",
+    "mongoose": "^4.1.10"
+  }
+}

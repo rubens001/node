@@ -30,8 +30,6 @@ rest=true
 ```
 
 Após aceitar rest, poderemos solicitar:
-http://localhost:28017/listDatabases?text=1
-http://localhost:28017/top?text=1
 http://localhost:28017/telemetryDb/telemetryinfos/?limit=10
 Obs: há diferenciação entre :
 http://localhost:28017/telemetryDb/telemetryinfos
