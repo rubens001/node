@@ -1,0 +1,16 @@
+{
+  "name": "objfunc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "homepage": "https://github.com/rubens001/node",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rubens001/node.git"
+  },
+  "author": "Rubens Zanatta",
+  "license": "ISC"
+}
