@@ -10,6 +10,7 @@
     "url": "git@github.com:rubens001/node.git"
   },
   "dependencies": {
+    "express": "^4.13.3",
     "mongodb": "~2.0",
     "mongoose": "^4.1.10"
   }
