@@ -1,36 +1,72 @@
-var mongoose = require('mongoose');
-var telemetryDb = require('./telemetryDb');
+var express = require('express');
+var mongodb = require('mongodb');
+var app = express();
 
-var db = mongoose.connection;
-mongoose.connect(telemetryDb.url);
+var Db = mongodb.Db,
+    Server = mongodb.Server;
 
-db.on('error', console.error);
-db.once('open', function() {
+///////// just list DBs
+var db = new Db('admin', new Server('localhost', 27017));
+// Establish connection to db
+db.open(function(err, db) {
+
+  // Use the admin database for the operation
+  var adminDb = db.admin();
+
+  // List all the available databases
+  adminDb.listDatabases(function(err, dbs) {
+    console.log('### dbs=',dbs);
+    db.close();
+  });
+});
+// Dbs
+
+var MONGODB_URI = 'mongodb://localhost/telemetryDb';
+// var MONGODB_URI = 'mongodb://localhost';
+
+var db;
+var coll;
+
+// Initialize connection once
+
+var conn = mongodb.MongoClient.connect(MONGODB_URI, function(err, database) {
+  if(err) throw err;
+
+  db = database;
+
+	db.collections(function(err, collections) {
+		collections.forEach(function (collection) {
+			console.log('### collection.name ',collection.s.name);
+		});
+	});
+
+  coll = db.collection('telemetryinfos');
+
+  app.listen(8000);
+  console.log('Listening on port 8000');
 });
 
-var TelemetryDbModel = telemetryDb.telemetryModelClass();
+// var dbNames = connection.getDBNames();
+// var connection = new Mongo();
+// var dbNames = connection.getDBNames();
+// console.log('### dbNames',dbNames);
+// console.log('### conn=',conn);
 
-var telemetryInfo = {payloead_name:"pname4",sentence_id:"id4",temp_internal:1234};
+// var mcli = new mongodb.MongoClient();
+// console.log('### mcli',mcli);
 
-// telemetryInfo is the Javascript object containing our new data.
-// We create a Mongoose model object from it, then save that to 
-// the database
-var dbTelemetryInfo = new TelemetryDbModel(telemetryInfo);
 
-// dbTelemetryInfo.save(function(err, dbTelemetryInfo) {
-//   if (err) {
-//       return console.error(err);
-//   }
-//   // We log to the console, just to show what we've saved
-//   console.log('### saved',dbTelemetryInfo);
-// });
+// Reuse database/collection object 
 
-TelemetryDbModel
-.find({sentence_id:'id4'})
-// .sort('-time')
-// .limit(1)
-.exec(function(err, data) {
-    if (err) return console.error(err);
-    console.log('### find data',data);
+app.get('/', function(req, res) { 
+  coll.find({}, function(err, docs) {
+    docs.each(function(err, doc) {
+      if(doc) {
+        res.write(JSON.stringify(doc) + "\n");
+      }
+      else {
+        res.end();
+      }
+    });
+  });
 });
-
