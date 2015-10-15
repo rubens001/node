@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>nwshell</title>
+	<script>
+		function execs() {
+			var str = document.getElementById('txtCmd').value;
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '/nwshell');
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.onreadystatechange = function () {
+			    if (xhr.readyState == 4 && xhr.status == 200) {
+			        var response = JSON.parse(xhr.responseText);
+			        console.log('### response',response);
+			    }
+			}
+			xhr.send(JSON.stringify({cmd:str,time:(new Date())}));
+		}
+	</script>
+</head>
+<body>
+<h3>Node Web Shell</h3>
+<textarea id='txtCmd' name='txtCmd' rows='20' cols='90'></textarea><br />
+<input type='button' value=' exec ' onclick='execs()' />
+</body>
+</html>

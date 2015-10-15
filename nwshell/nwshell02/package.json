@@ -1,0 +1,17 @@
+{
+  "name": "nwshell",
+  "version": "1.0.0",
+  "description": "Node Web Shell Project",
+  "author": "Rubens Zanatta",
+  "license": "ISC",
+  "homepage": "https://github.com/rubens001/node",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rubens001/node.git"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "eval": "^0.1.1",
+    "express": "^4.13.3"
+  }
+}
