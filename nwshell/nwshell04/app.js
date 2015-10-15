@@ -20,8 +20,8 @@ app.listen(port);
 
 app.post('/nwshell',jsonParser,function(req, res) {
 	// console.log('post em nwshell, scmd.cmd=', req.body.cmd);
-	var module, output;
-
+	var module, output, ret;
+    ret = 'ok';
     Module = require('module');
 	module = new Module('idModule', process.mainModule);
     module.filename = 'filenameModule';
@@ -29,10 +29,47 @@ app.post('/nwshell',jsonParser,function(req, res) {
     module._compile(req.body.cmd, 'idModule');
     module.loaded = true;
 
-    if (module.exports.execute) {
-        output = module.exports.execute();
+    try {
+        if (module.exports.execute) {
+            output = module.exports.execute();
+        }
+    } catch (err) {
+        ret='err';
+        output = err.stack;
     }
 
-	// console.log('output=', output);
-	res.json({ret:'ok',time:(new Date()),output:output});
+	res.json({ret:ret,time:(new Date()),output:objFunc(output)});
 });
+
+// obtem objeto transformando functions em strings
+function objFunc(obj) {
+    if (typeof obj == 'function' || typeof obj == 'undefined' || typeof obj == 'string' || typeof obj == 'number' || typeof obj == 'boolean' || Array.isArray(obj)) {
+        return getValue(obj);
+    }
+    var keys = Object.keys(obj);
+    var sobj = {};
+    keys.forEach(function(k){
+        sobj[k] = getValue(obj[k]);
+    });
+    return sobj;
+}
+
+function getValue(item) {
+    if (typeof item == 'function') {
+        return item.toString();
+    } else if (typeof item == 'undefined') {
+        return undefined;
+    } else if (Array.isArray(item)) {
+        return getArr(item);
+    } else { // obj nao array
+        return item;
+    }
+}
+
+function getArr(objArr){
+    var arr = [];
+    objArr.forEach(function(item) {
+        arr.push(objFunc(item));
+    });
+    return arr;
+}
