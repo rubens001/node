@@ -29,7 +29,7 @@ app.post('/nwshell',jsonParser,function(req, res) {
     module._compile(req.body.cmd, 'idModule');
     module.loaded = true;
 
-    var inic = new Date().getTime();
+    var startTime = new Date().getTime();
 
     try {
         if (module.exports.execute) {
@@ -40,10 +40,10 @@ app.post('/nwshell',jsonParser,function(req, res) {
         output = err.stack;
     }
 
-		var end = new Date().getTime();
-		var elapsed = end - inic;
-		
-	res.json({ret:ret,time:(new Date()),output:objFunc(output)});
+		var endTime = new Date().getTime();
+		var timeDiff = endTime - startTime;
+
+		res.json({ret:ret,time:(new Date()),elapsed:ms2Time(timeDiff),output:objFunc(output)});
 });
 
 // obtem objeto transformando functions em strings
@@ -77,4 +77,15 @@ function getArr(objArr){
         arr.push(objFunc(item));
     });
     return arr;
+}
+
+function ms2Time(ms) {
+    var secs = ms / 1000;
+    ms = Math.floor(ms % 1000);
+    var minutes = secs / 60;
+    secs = Math.floor(secs % 60);
+    var hours = minutes / 60;
+    minutes = Math.floor(minutes % 60);
+    hours = Math.floor(hours % 24);
+    return hours + ":" + minutes + ":" + secs + "." + ms;
 }
