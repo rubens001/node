@@ -10,10 +10,10 @@ console.log('port=' + port + ' resource='+path);
 
 app.use(express.static(path));
 
-// create application/json parser 
+// create application/json parser
 var jsonParser = bodyParser.json();
- 
-// create application/x-www-form-urlencoded parser 
+
+// create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 app.listen(port);
@@ -23,12 +23,13 @@ app.post('/nwshell',jsonParser,function(req, res) {
 	var module, output, ret;
     ret = 'ok';
     Module = require('module');
-	module = new Module('idModule', process.mainModule);
+	  module = new Module('idModule', process.mainModule);
     module.filename = 'filenameModule';
     module.paths = process.mainModule.paths;
     module._compile(req.body.cmd, 'idModule');
     module.loaded = true;
 
+    var inic = new Date().getTime();
     try {
         if (module.exports.execute) {
             output = module.exports.execute();
