@@ -30,6 +30,7 @@ app.post('/nwshell',jsonParser,function(req, res) {
     module.loaded = true;
 
     var inic = new Date().getTime();
+
     try {
         if (module.exports.execute) {
             output = module.exports.execute();
@@ -39,6 +40,9 @@ app.post('/nwshell',jsonParser,function(req, res) {
         output = err.stack;
     }
 
+		var end = new Date().getTime();
+		var elapsed = end - inic;
+		
 	res.json({ret:ret,time:(new Date()),output:objFunc(output)});
 });
 
