@@ -43,7 +43,7 @@ app.post('/nwshell',jsonParser,function(req, res) {
 		var endTime = new Date().getTime();
 		var timeDiff = endTime - startTime;
 
-		res.json({ret:ret,time:(new Date()),elapsed:ms2Time(timeDiff),output:objFunc(output)});
+		res.json({ret:ret,time:startTime,elapsed:ms2Time(timeDiff),output:objFunc(output)});
 });
 
 // obtem objeto transformando functions em strings
