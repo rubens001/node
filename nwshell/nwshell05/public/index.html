@@ -55,6 +55,11 @@
 		}
 
 function formatJson(json) {
+	var obj = JSON.parse(json);
+	var obj2 = objStr(obj);
+	console.log('### obj2',obj2);
+	json = JSON.stringify(obj2);
+
 	json = json.replace(/{/g,"<div class=\"item\">{");
 	json = json.replace(/\[/g,"<div class=\"item\">[");
 	json = json.replace(/}\,/g,"&#125;,</div>");
@@ -62,9 +67,38 @@ function formatJson(json) {
 	json = json.replace(/}/g,"}</div>");
 	json = json.replace(/\]/g,"]</div>");
 	json = json.replace(/,/g,",<br>");
-//	json = json.replace(/\\n/g,"<br>");
+	json = json.replace(/\\n/g,"<br>");
 
 	return json;
+}
+
+function objStr(obj) {
+    if (typeof obj != 'object') {
+			if (typeof obj == 'string') {
+				var strVal = obj.replace(/,/g,"&#44;");
+//				strVal = strVal.replace(/{/g,"&#x7b;");
+//				strVal = strVal.replace(/}/g,"&#x7d;");
+				strVal = strVal.replace(/\[/g,"&#x5b;");
+				strVal = strVal.replace(/\]/g,"&#x5d;");
+				return strVal;
+			}
+			return obj;
+		}
+
+		if (Array.isArray(obj)) {
+			var arr = [];
+	    obj.forEach(function(item) {
+	        arr.push(objStr(item));
+	    });
+	    return arr;
+		} else {
+				var keys = Object.keys(obj);
+		    var sobj = {};
+		    keys.forEach(function(k){
+		      sobj[k] = objStr(obj[k]);
+		    });
+		    return sobj;
+		}
 }
 
 	</script>
