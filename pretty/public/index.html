@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>nwshell</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<style type="text/css">
+.json-container {
+	background-color:snow;
+	font-family: monospace;
+	}
+.item {
+	margin-left:15px;
+	border-left: 1px solid #d7d7d7;
+}
+.json-key {
+	 color: red;
+	 }
+.json-value {
+	 color: blue;
+	 }
+.json-string {
+	 color: olive;
+	 }
+</style>
+
+	<script>
+		function pretty() {
+			var json = $('#txtCmd').val();
+			try {
+				var obj = JSON.parse(json);
+				var htmlJson = formatJson(json);
+				$('.json-container').html(htmlJson);
+				$('.json-container').ready(function(){
+
+					$('.json-container').on('mouseover', 'div', function(e) {
+							$(e.target).parent().css("background-color","snow");
+							$(e.target).children().css("background-color","snow");
+							$(e.target).css("background-color","#FFFFCC");
+
+							$(e.target).mouseout(function(){
+								$(e.target).css("background-color","snow");
+							});
+					});
+
+				});
+			} catch (err) {
+				$('.json-container').html(err);
+				return;
+			}
+		}
+
+// search object items recursively and replace some chars
+// to html tags in order to prettyfy
+function formatJson(json) {
+	json = json.replace(/{/g,"<div class=\"item\">{");
+	json = json.replace(/\[/g,"<div class=\"item\">[");
+  json = json.replace(new RegExp('},', 'g'),"&#125;,</div>");
+	json = json.replace(/]\,/g,"&#93;,</div>");
+	json = json.replace(/}/g,"}</div>");
+	json = json.replace(/\]/g,"]</div>");
+	json = json.replace(/,/g,",<br>");
+	json = json.replace(/\\n/g,"<br>");
+
+	return json;
+}
+
+</script>
+</head>
+<body class="content">
+<div class="container">
+	<form>
+		<h3>pretty json</h3>
+	  <div class="form-group">
+	    <label for="pasteJson">Paste your json here :</label>
+			<textarea id='txtCmd' class="form-control" id="pasteJson" rows='10' placeholder="paste json"></textarea>
+	  </div>
+
+	  <button type="button" class="btn btn-primary" onclick='pretty()'>pretty</button>
+	</form>
+
+	<br />
+	<span class="json-container"></span>
+
+</div>
+</body>
+</html>
