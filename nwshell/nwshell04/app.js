@@ -29,7 +29,8 @@ app.post('/nwshell',jsonParser,function(req, res) {
     module._compile(req.body.cmd, 'idModule');
     module.loaded = true;
 
-    var startTime = new Date().getTime();
+		var startDate = new Date();
+    var startTime = startDate.getTime();
 
     try {
         if (module.exports.execute) {
@@ -43,7 +44,7 @@ app.post('/nwshell',jsonParser,function(req, res) {
 		var endTime = new Date().getTime();
 		var timeDiff = endTime - startTime;
 
-		res.json({ret:ret,time:startTime,elapsed:ms2Time(timeDiff),output:objFunc(output)});
+		res.json({ret:ret,time:startDate,elapsed:ms2Time(timeDiff),output:objFunc(output)});
 });
 
 // obtem objeto transformando functions em strings
