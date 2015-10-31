@@ -3,7 +3,7 @@ app = express(),
 port = process.env.PORT || 8000,
 path = process.env.DIR || __dirname + '/public';
 
-console.log('resource='+path);
+console.log('dir='+path);
 
 app.use(express.static(path));
   var server = app.listen(port, function () {
