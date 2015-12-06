@@ -18,4 +18,4 @@ alterado param para DIR
 
 criado comando para windows starthttp.bat
 precisa criar em sh tambem
-teste3
+teste4
