@@ -17,4 +17,4 @@ http://localhost:8080/html
 alterado param para DIR
 
 criado comando para windows starthttp.bat
-criar em sh tambem
+precisa criar em sh tambem
