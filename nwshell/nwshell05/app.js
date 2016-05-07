@@ -21,30 +21,31 @@ app.listen(port);
 app.post('/nwshell',jsonParser,function(req, res) {
 	// console.log('post em nwshell, scmd.cmd=', req.body.cmd);
 	var module, output, ret;
-    ret = 'ok';
-    Module = require('module');
-	  module = new Module('idModule', process.mainModule);
-    module.filename = 'filenameModule';
-    module.paths = process.mainModule.paths;
-    module._compile(req.body.cmd, 'idModule');
-    module.loaded = true;
+  ret = 'ok';
 
-		var startDate = new Date();
-    var startTime = startDate.getTime();
+	var startDate = new Date();
+  var startTime = startDate.getTime();
 
-    try {
-        if (module.exports.execute) {
-            output = module.exports.execute();
-        }
-    } catch (err) {
-        ret='err';
-        output = err.stack;
-    }
-
+	var showReturn=function(output){
 		var endTime = new Date().getTime();
 		var timeDiff = endTime - startTime;
-
 		res.json({ret:ret,time:startDate,elapsed:ms2Time(timeDiff),output:objFunc(output)});
+	};
+
+  try {
+		Module = require('module');
+		module = new Module('idModule', process.mainModule);
+		module.filename = 'filenameModule';
+		module.paths = process.mainModule.paths;
+		module._compile(req.body.cmd, 'idModule');
+		module.loaded = true;
+		if (module.exports.execute) {
+      output = module.exports.execute(showReturn);
+    }
+  } catch (err) {
+      ret='err';
+      showReturn(err.stack);
+  }
 });
 
 // loop object items turning functions into strings

@@ -4,6 +4,7 @@
 	<title>nwshell</title>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <style type="text/css">
+body{font-family: "Arial"}
 .json-container {
 	background-color:snow;
 	font-family: monospace;
@@ -108,11 +109,11 @@ function objStr(obj) {
 	</script>
 </head>
 <body>
-<h3>Node Web Shell</h3>
+<h3>Shell</h3>
 <textarea id='txtCmd' name='txtCmd' rows='20' cols='90'>
 'use strict'
-exports.execute=function() {
-return 'test';
+exports.execute=function(showReturn) {
+showReturn('test');
 }
 </textarea><br />
 <input type='button' value=' exec ' onclick='execs()' />
