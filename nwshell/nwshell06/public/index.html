@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>nwshell</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<style type="text/css">
+body{font-family: "Arial"}
+.json-container {
+	background-color:snow;
+	font-family: monospace;
+	}
+.item {
+	margin-left:15px;
+	border-left: 1px solid #d7d7d7;
+}
+.json-key {
+	 color: red;
+	 }
+.json-value {
+	 color: blue;
+	 }
+.json-string {
+	 color: olive;
+	 }
+</style>
+
+	<script>
+		function execs() {
+			var str = document.getElementById('txtCmd').value;
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', '/nwshell');
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.onreadystatechange = function () {
+			    if (xhr.readyState == 4 && xhr.status == 200) {
+			        var respObj = JSON.parse(xhr.responseText);
+			        console.log('### response',respObj); // validacao
+
+							var resp = xhr.responseText;
+							var htmlJson = formatJson(resp);
+							$('.json-container').html(htmlJson);
+							$('.json-container').ready(function(){
+
+								$('.json-container').on('mouseover', 'div', function(e) {
+										$(e.target).parent().css("background-color","snow");
+										$(e.target).children().css("background-color","snow");
+										$(e.target).css("background-color","#FFFFCC");
+
+										$(e.target).mouseout(function(){
+											$(e.target).css("background-color","snow");
+										});
+								});
+
+							});
+			    }
+			}
+			xhr.send(JSON.stringify({cmd:str,time:(new Date())}));
+		}
+
+// search object items recursively and replace some chars
+// to html tags in order to prettyfy
+function formatJson(json) {
+	var obj = JSON.parse(json);
+	var obj2 = objStr(obj);
+	json = JSON.stringify(obj2);
+
+	json = json.replace(/{/g,"<div class=\"item\">{");
+	json = json.replace(/\[/g,"<div class=\"item\">[");
+  json = json.replace(new RegExp('},', 'g'),"&#125;,</div>");
+	json = json.replace(/]\,/g,"&#93;,</div>");
+	json = json.replace(/}/g,"}</div>");
+	json = json.replace(/\]/g,"]</div>");
+	json = json.replace(/,/g,",<br>");
+	json = json.replace(/\\n/g,"<br>");
+
+	return json;
+}
+
+// search for string values and replace their
+// comma, brackets, etc to unicode
+function objStr(obj) {
+	if (obj===null||obj===undefined){return obj;}
+	if (typeof obj == 'string') {
+		var strVal = obj.replace(/,/g,"&#44;");
+//				strVal = strVal.replace(/{/g,"&#x7b;");
+//				strVal = strVal.replace(/}/g,"&#x7d;");
+		strVal = strVal.replace(/\[/g,"&#x5b;");
+		strVal = strVal.replace(/\]/g,"&#x5d;");
+		return strVal;
+	}
+  if (typeof obj != 'object') {
+		return obj;
+	}
+
+	if (Array.isArray(obj)) {
+		var arr = [];
+    obj.forEach(function(item) {
+        arr.push(objStr(item));
+    });
+    return arr;
+	} else {
+			var keys = Object.keys(obj);
+	    var sobj = {};
+	    keys.forEach(function(k){
+	      sobj[k] = objStr(obj[k]);
+	    });
+	    return sobj;
+	}
+}
+
+	</script>
+</head>
+<body>
+<h3>Shell</h3>
+<textarea id='txtCmd' name='txtCmd' rows='20' cols='90'>
+'use strict'
+var request = require("request")
+exports.execute=function(showReturn) {
+
+var url = "http://developer.cumtd.com/api/v2.2/json/GetStop?" +
+    "key=d99803c970a04223998cabd90a741633" +
+    "&stop_id=it"
+
+request({
+    url: url,
+    json: true
+}, function (error, response, body) {
+  showReturn(error,body);
+});
+
+}
+</textarea><br />
+<input type='button' value=' exec ' onclick='execs()' />
+<br /><br />
+<!-- prettyPrint demo -->
+<span class="json-container">
+</span>
+</body>
+</html>
