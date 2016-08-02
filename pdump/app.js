@@ -1,4 +1,4 @@
-// USO : $ DIR=/home/rubens/Documents/projetos/node/pcopy/backup node app.js
+// USO : $ DIR=/home/rubens/Documents/projetos/node/pdump/backup node app.js
 
 var fs = require('fs');
 var PouchDB = require('pouchdb');
