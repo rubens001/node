@@ -26,10 +26,13 @@ app.post('/nwshell',jsonParser,function(req, res) {
 	var startDate = new Date();
   var startTime = startDate.getTime();
 
-	var showReturn=function(output){
+	var showReturn=function(err,output){
 		var endTime = new Date().getTime();
 		var timeDiff = endTime - startTime;
-		res.json({ret:ret,time:startDate,elapsed:ms2Time(timeDiff),output:objFunc(output)});
+    var response = err ? {error:err} : output;
+    var rett=objFunc(response);
+    console.log('rett=',rett);
+		res.json({ret:ret,time:startDate,elapsed:ms2Time(timeDiff),output:objFunc(response)});
 	};
 
   try {
@@ -50,6 +53,7 @@ app.post('/nwshell',jsonParser,function(req, res) {
 
 // loop object items turning functions into strings
 function objFunc(obj) {
+  if (obj===null||obj===undefined){return obj;}
 	if (typeof obj == 'function') {
 			return getValue(obj); // stringify functions
 	}

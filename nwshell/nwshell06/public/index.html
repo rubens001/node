@@ -78,6 +78,7 @@ function formatJson(json) {
 // search for string values and replace their
 // comma, brackets, etc to unicode
 function objStr(obj) {
+	if (obj===null||obj===undefined){return obj;}
 	if (typeof obj == 'string') {
 		var strVal = obj.replace(/,/g,"&#44;");
 //				strVal = strVal.replace(/{/g,"&#x7b;");
@@ -112,12 +113,24 @@ function objStr(obj) {
 <h3>Shell</h3>
 <textarea id='txtCmd' name='txtCmd' rows='20' cols='90'>
 'use strict'
+var request = require("request")
 exports.execute=function(showReturn) {
-showReturn('test');
+
+var url = "http://developer.cumtd.com/api/v2.2/json/GetStop?" +
+    "key=d99803c970a04223998cabd90a741633" +
+    "&stop_id=it"
+
+request({
+    url: url,
+    json: true
+}, function (error, response, body) {
+  showReturn(error,body);
+});
+
 }
 </textarea><br />
 <input type='button' value=' exec ' onclick='execs()' />
-<br />
+<br /><br />
 <!-- prettyPrint demo -->
 <span class="json-container">
 </span>
