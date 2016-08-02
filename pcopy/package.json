@@ -1,0 +1,14 @@
+{
+  "name": "pcopy",
+  "version": "1.0.0",
+  "description": "copy from/to pouchdb remote/local",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pouchdb": "^5.4.5"
+  }
+}
