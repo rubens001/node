@@ -1,11 +1,11 @@
-// USO : $ DIR=/home/rubens/Documents/projetos/pouch/pcopy/back node app.js
+// USO : $ DIR=/home/rubens/Documents/projetos/node/pcopy/backup node app.js
 
 var fs = require('fs');
 var PouchDB = require('pouchdb');
 const request = require('request');
 
 var remoteURL = process.env.URL || 'http://localhost:5984';
-var path = process.env.DIR || __dirname + '/back';
+var path = process.env.DIR || __dirname + '/backup';
 
 var dbs;
 
