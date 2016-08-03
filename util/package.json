@@ -1,7 +1,7 @@
 {
-  "name": "pload",
+  "name": "pdump",
   "version": "1.0.0",
-  "description": "copy pouchdb from local to remote",
+  "description": "utilities copy pouchdb from remote to local",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

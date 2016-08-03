@@ -1,4 +1,5 @@
-// USO : $ DIR=/home/rubens/Documents/projetos/node/pdump/backup node app.js
+// carrega (restaura) pouchDB-server com conteudo dos diversos DBs locais
+// USO : $ DIR=/home/rubens/Documents/projetos/node/util/backup node pload.js
 
 var fs = require('fs');
 var PouchDB = require('pouchdb');
