@@ -1,0 +1,89 @@
+<h4>{{i18n('msg.Personal.Profile')}}</h4>
+<ng-form name="profileForm" class="form-horizontal" role="form">
+
+	<div class="form-group" ng-if="userProfileItem.name">
+		<label class="col-sm-3 control-label">{{i18n('msg.Name')}}</label>
+		<div class="col-sm-9">
+			<p class="form-control-static"><span>{{userProfileItem.name}}</span></p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">{{i18n('msg.Email')}}</label>
+		<div class="col-sm-9">
+			<p class="form-control-static"><span>{{userProfileItem.email}}</span></p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label">{{i18n('msg.Exhibition.name')}}</label>
+		<div class="col-sm-9">
+			<p class="form-control-static"><span>{{userProfileItem.givenName}}</span></p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="idLoginType" class="col-sm-3 control-label">{{i18n('msg.Login.type')}}</label>
+		<div class="col-sm-9">
+			<p class="form-control-static"><span>{{loginType}}</span></p>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-offset-3 col-sm-9 col-xs-12">
+			<button data-ng-show="editMode==false" type="button" class="btn btn-primary btn-raised col-sm-3 col-xs-5"
+				ng-click="editMode=true">{{i18n('msg.edit')}}</button>
+			<button data-ng-show="editMode==true" type="button" class="btn btn-primary btn-raised col-sm-3 col-xs-5"
+				ng-click="editMode=false">{{i18n('msg.protect')}}</button>
+
+			<span class="col-xs-1">&nbsp;</span>
+
+			<div data-ng-show="userProfileItem.loginType==0">
+				<button data-ng-show="editPassword==false" type="button" class="btn btn-primary btn-raised col-sm-3 col-xs-5"
+					ng-click="editPassword=true">{{i18n('msg.Passw')}}</button>
+			<button data-ng-show="editPassword==true" type="button"
+				class="btn btn-primary col-sm-3 col-xs-5"
+				ng-click="editPassword=false; userProfileItem.password=null; userProfileItem.password=null; userProfileItem.newPassword=null; newPassword2=null;">proteger</button>
+		</div>
+		</div>
+	</div>
+
+	<div class="form-group" data-ng-show="editMode==true">
+		<label for="idGivenName" class="col-sm-3 control-label">{{i18n('msg.Exhibition.name')}}</label>
+		<div class="col-sm-9">
+			<input type="text" data-ng-model="userProfileItem.givenName"
+				id="idGivenName" name="idGivenName" class="form-control"
+				ng-minlength=1 maxlength="50">
+		</div>
+	</div>
+
+	<div class="form-group" data-ng-show="editPassword==true">
+		<label for="idPassAtu" class="col-sm-3 control-label">{{i18n('msg.Passw.atu')}}</label>
+		<div class="col-sm-9">
+			<input type="password" data-ng-model="userProfileItem.password"
+				id="idPassAtu" name="idPassAtu" class="form-control"
+				ng-minlength=3 maxlength="255">
+		</div>
+	</div>
+	<div class="form-group" data-ng-show="editPassword==true">
+		<label for="idPassTo1" class="col-sm-3 control-label">{{i18n('msg.New.psw')}}</label>
+		<div class="col-sm-9">
+			<input type="password" data-ng-model="userProfileItem.newPassword"
+				id="idPassTo1" name="idPassTo1" class="form-control"
+				ng-minlength=3 maxlength="255">
+		</div>
+	</div>
+	<div class="form-group" data-ng-show="editPassword==true">
+		<label for="idPassTo2" class="col-sm-3 control-label">{{i18n('msg.Confirm.password')}}</label>
+		<div class="col-sm-9">
+			<input type="password" data-ng-model="newPassword2"
+				id="idPassTo2" name="idPassTo2" class="form-control"
+				ng-minlength=3 maxlength="255">
+		</div>
+	</div>
+
+	<div class="form-group" data-ng-if="editMode==true || editPassword==true">
+		<div class="col-sm-offset-3 col-sm-9 col-xs-12">
+			<a href="#/"><button type="button" class="btn btn-danger btn-raised col-sm-3 col-xs-5">{{i18n('msg.cancel')}}</button></a>
+			<span class="col-xs-1">&nbsp;</span>
+			<button type="button" class="btn btn-primary btn-raised col-sm-3 col-xs-5" ng-click="onConfirm()">{{i18n('msg.confirm')}}</button>
+		</div>
+	</div>
+</ng-form>

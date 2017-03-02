@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!doctype html>
+<html xmlns:ng="http://angularjs.org" lang='pt-br' data-ng-app="app" id="ng-app">
+<head>
+	<title>Rock Radio</title>
+	<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+	<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+	<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+	<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+
+    <!--[if lte IE 8]>
+        <script>
+          document.createElement('ng-include');
+          document.createElement('ng-pluralize');
+          document.createElement('ng-view');
+
+          // Optionally these for CSS
+          document.createElement('ng:include');
+          document.createElement('ng:pluralize');
+          document.createElement('ng:view');
+        </script>
+      <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!-- CSP Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://localhost:7070 http://www.7chaos.com https://accounts.google.com https://www.googleapis.com https://www.facebook.com https://graph.facebook.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"/>
+
+    <!-- inibe zoom : user-scalable=no -->
+	<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link rel="stylesheet" href="html/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="html/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="html/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
+    <link rel="stylesheet" href="html/bower_components/font-awesome/css/font-awesome.min.css">
+
+	<!-- css -->
+    <link rel="stylesheet" href="html/css/main.css">
+    <link rel="stylesheet" href="html/css/style.css">
+
+    <!-- grids -->
+    <link rel="stylesheet" href="html/vendor/bootstrap/css/docs.min.css">
+    <!-- normalize.css :: A modern, HTML5-ready alternative to CSS resets -->
+	<link rel="stylesheet" href="html/vendor/normalize/normalize.3.0.1.css">
+
+	<!-- cordova.js so existe em mobiles em platforms/android/platform_www -->
+	<script type="text/javascript" src="cordova.js"></script>
+
+    
+    <script type="text/javascript" src="../html/vendor/7chaos/7chaos.js"></script>
+    <script type="text/javascript" src="../html/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="../html/bower_components/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="../html/bower_components/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="../html/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="../html/bower_components/angular-touch/angular-touch.min.js"></script>
+    <script type="text/javascript" src="../html/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="../html/bower_components/notifyjs/dist/notify.js"></script>
+    <script type="text/javascript" src="../html/bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+    <script type="text/javascript" src="../html/js/app.js"></script>
+    <script type="text/javascript" src="../html/js/controller/adm.js"></script>
+    <script type="text/javascript" src="../html/js/controller/home.js"></script>
+    <script type="text/javascript" src="../html/js/controller/songs.js"></script>
+    <script type="text/javascript" src="../html/js/controller/userlogged.js"></script>
+    <script type="text/javascript" src="../html/js/messages.js"></script>
+    <script type="text/javascript" src="../html/js/resource/resources.js"></script>
+    <script type="text/javascript" src="../html/js/service/authorization.js"></script>
+    <script type="text/javascript" src="../html/js/service/loginservice.js"></script>
+    <script type="text/javascript" src="../html/js/service/modalbox.js"></script>
+    <script type="text/javascript" src="../html/js/service/ngProgress.js"></script>
+    <script type="text/javascript" src="../html/js/service/resource.js"></script>
+    <script type="text/javascript" src="../html/js/service/rsaservice.js"></script>
+    <script type="text/javascript" src="../html/js/service/securityFactory.js"></script>
+    <script type="text/javascript" src="../html/js/service/services.js"></script>
+</head>
+<body class="content"><!-- content inicializa "width" no bootstrap -->
+<header class="navbar navbar-inverse navbar-fixed-top" data-ng-controller="NavBarCtrl">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-3" ng-click="isCollapsed = !isCollapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand visible-xs" href="/#"><i class="fa fa-home"></i> início</a>
+            </div>
+            <nav class="hidden-xs">
+                <ul class="nav navbar-nav">
+                    <a href="#/" role="button" class="navbar-brand">
+                        <i class="fa fa-headphones" aria-hidden="true"></i>
+                        início
+                    </a>
+
+									<li class="dropdown" dropdown>
+											<a role="button" class="dropdown-toggle" dropdown-toggle>
+													<i class="fa fa-list"></i> Consulta <b class="caret"></b>
+											</a>
+											<ul class="dropdown-menu">
+												<li><a href="#/artist"><i class="fa fa-users"></i> Artista</a></li>
+												<li><a href="#/songs"><i class="fa fa-music"></i> Música</a></li>
+												<li><a href="#/radio"><i class="fa fa-volume-up"></i> rádio</a></li>
+											</ul>
+									</li>
+
+									<li data-ng-if="secHasRole('ROLE_ADM_ROCK')"><a href="#/adm"><i class="fa fa-cogs"></i> adm</a></li>
+                	<li><a href="#/info"><i class="fa fa-info-circle"></i> ajuda</a></li>
+                </ul>
+
+								<ul class="nav navbar-nav navbar-right">
+
+								<li><a href="" data-ng-click="onContact()">
+				        	<i class="fa fa-envelope"></i> Contato</a></li>
+
+				        <li data-ng-if="!secIsLogged()"><a href="" data-ng-click="onLogin()">
+				        	<i class="fa fa-sign-in"></i> login</a></li>
+
+								<li class="dropdown" dropdown data-ng-show="secIsLogged()==true">
+									<a role="button" class="dropdown-toggle" dropdown-toggle>
+											<i class="fa fa-user"></i> {{secGetUserName()}}<b class="caret"></b>
+									</a>
+									<ul class="dropdown-menu">
+										<li><a href="#/userlogged/profile"><i class="fa fa-user"></i> Perfil</a></li>
+										<li class="divider"></li>
+										<li><a href="" data-ng-click="onLogout()"><i class="fa fa-sign-out"></i> Sair</a></li>
+									</ul>
+								</li>
+
+				        </ul>
+            </nav>
+            <nav class="visible-xs" collapse="!isCollapsed">
+            	<div ng-show="isCollapsed">
+	                <ul class="nav navbar-nav">
+										<li class="dropdown" dropdown>
+												<a role="button" class="dropdown-toggle" dropdown-toggle>
+														<i class="fa fa-list"></i> Consulta <b class="caret"></b>
+												</a>
+												<ul class="dropdown-menu">
+													<li><a href="#/artist" ng-click="isCollapsed = false;"><i class="fa fa-users"></i> Artista</a></li>
+													<li><a href="#/songs" ng-click="isCollapsed = false;"><i class="fa fa-music"></i> Música</a></li>
+													<li><a href="#/radio" ng-click="isCollapsed = false;"><i class="fa fa-volume-up"></i> rádio</a></li>
+												</ul>
+										</li>
+
+										<li><a href="#/adm" ng-click="isCollapsed = !isCollapsed;"><i class="fa fa-cogs"></i> adm</a></li>
+	                	<li><a href="#/contact" data-ng-click="isCollapsed = !isCollapsed;"><i class="fa fa-envelope"></i> Contato</a></li>
+	                  <li data-ng-show="secIsLogged()==false"><a href="" data-ng-click="isCollapsed = !isCollapsed; onLogin();"><i class="fa fa-sign-in"></i> login</a></li>
+	                  <li data-ng-show="secIsLogged()==true"><a href="#/userlogged/profile" ng-click="isCollapsed = !isCollapsed;"><i class="fa fa-user"></i> perfil</a></li>
+	                  <li data-ng-show="secIsLogged()==true"><a href="" data-ng-click="isCollapsed = !isCollapsed; onLogout();"><i class="fa fa-sign-out"></i> Sair</a></li>
+	                </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+	<div style="height:65px;">&nbsp;</div>
+    <div data-ng-view></div>
+   </div>
+
+<!-- Oauth2 Google plus
+    script type="text/javascript">
+      (function() {
+       var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+       po.src = 'https://apis.google.com/js/client:plusone.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+     })();
+    /script
+    -->
+
+<!-- hide splash screen -->
+    <script type="text/javascript" charset="utf-8">
+    	if (environment == "apk") {
+    		document.addEventListener("deviceready", onDeviceReady, false);
+    	    function onDeviceReady() {
+    	        navigator.splashscreen.hide();
+    	    }
+    	}
+
+    </script>
+  </body>
+</html>
+</html>
