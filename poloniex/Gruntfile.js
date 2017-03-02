@@ -19,14 +19,13 @@ module.exports = function(grunt) {
                 separator: ';'
             },
             dist: {
-                src: ['public/html/bower_components/jquery/dist/jquery.min.js',
+                src: ['public/html/bower_components/jquery/jquery.min.js',
                       'public/html/bower_components/angular/angular.min.js',
                       'public/html/bower_components/angular-route/angular-route.min.js',
                       'public/html/bower_components/angular-resource/angular-resource.min.js',
                       'public/html/bower_components/angular-sanitize/angular-sanitize.min.js',
                       'public/html/bower_components/angular-touch/angular-touch.min.js',
                       'public/html/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-                      'public/html/bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js',
                       'public/html/bower_components/notifyjs/dist/notify.js',
                       'public/html/js/**/*.js'],
                 dest: 'public/html/dist/<%= pkg.name %>.js'

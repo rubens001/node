@@ -4,7 +4,7 @@ exports.get=function() {
 	{name:"poloniex",
 	pathResource:'public',
 	port:process.env.PORT || 9191,
-	dbUri:'db.json',
+	dbPath:'/home/rubens/Documents/dbjson/db.json',
 	};
 
 	return(config);

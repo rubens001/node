@@ -31,11 +31,10 @@ var SampleApp = function() {
      */
     self.setupVariables = function() {
         //  Set the environment variables we need.
-        self.dbUri = process.env.OPENSHIFT_NODEJS_IP;
-        self.dbUri = config.dbUri;
+        self.dbPath = config.dbPath;
         self.ipaddress = "127.0.0.1";
         self.port = config.port;
-        console.warn('### dbUri:'+self.dbUri);
+        console.warn('### dbPath:'+self.dbPath);
     };
 
 

@@ -1,4 +1,4 @@
-angular.module('app', [ 'ngRoute', 'ngSanitize', 'ngTouch', 'ui.bootstrap',
+angular.module('app', [ 'ngRoute', 'ngSanitize', 'ui.bootstrap',
 	'Commom.Factory','security.authorization',
 	'home.module','songs.module','adm.module','service.modalbox',
 	'service.app','service.login','userlogged.module'
