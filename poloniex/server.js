@@ -132,7 +132,7 @@ var SampleApp = function() {
         require('./service/test').post(req,res,next);
       });
 
-      // servicos genericos
+      // servicos genericos (convencao padrao "/api/nomeservico")
       self.app.get('/api/:service', function (req, res, next) {
         callService(req, res, next,'get');
       });
