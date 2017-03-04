@@ -6,6 +6,7 @@ module.exports = function(grunt) {
         jshint: {
             files: ['Gruntfile.js','./public/html/js/**/*.js','./service/*.js','./service/**/*.js','./app/*.js'],
             options: {
+                esnext:6,
                 globals: {
                     jQuery: true,
                     console: true,
@@ -19,7 +20,7 @@ module.exports = function(grunt) {
                 separator: ';'
             },
             dist: {
-                src: ['public/html/bower_components/jquery/jquery.min.js',
+                src: ['public/html/bower_components/jquery/dist/jquery.min.js',
                       'public/html/bower_components/angular/angular.min.js',
                       'public/html/bower_components/angular-route/angular-route.min.js',
                       'public/html/bower_components/angular-resource/angular-resource.min.js',
