@@ -26,12 +26,59 @@ function ($routeProvider) {
 		resolve:{
 			validRole: ['secAuth', function (secAuth) { secAuth.validRole('ROLE_ADM_ROCK'); }],
 		}
-		});
+	});
+	
+	$routeProvider.when('/adm/plnx', {
+		templateUrl: 'html/templates/adm/plnx.tpl.html',
+		controller:'PlnxCtrl',
+		resolve:{
+			validRole: ['secAuth', function (secAuth) { secAuth.validRole('ROLE_ADM_ROCK'); }],
+		}
+	});
+	
 }]);
 
 angular.module('adm.module').controller('AdmCtrl',
 		['$scope', '$location',
 function ($scope,  $location) {
+
+}]);
+
+angular.module('adm.module').controller('PlnxCtrl',
+		['$scope','$http','AdmService','AppService',
+function ($scope,  $http,  AdmService,  AppService) {
+
+	$scope.onStartPlnx = function() {
+		$http({method: 'GET',url: 'api/plnxdb/start'
+		}).then(function successCallback(response) {
+			console.log('plnx ok, data=', response.data);
+		}, function errorCallback(response) {
+			console.error('plnx ERR response=',response);
+		});
+	};
+
+	$scope.onStopPlnx = function() {
+		$http({method: 'GET',url: 'api/plnxdb/stop'
+		}).then(function successCallback(response) {
+			console.log('plnx ok, data=', response.data);
+		}, function errorCallback(response) {
+			console.error('plnx ERR response=',response);
+		});
+	};
+
+	$scope.onCsvPlnx = function() {
+		$http({method: 'GET',url: 'api/plnxdb/csv'
+		}).then(function successCallback(response) {
+			console.log('plnx ok, data=', response.data);
+		}, function errorCallback(response) {
+			console.error('plnx ERR response=',response);
+		});
+	};
+
+	// console.log('ok in PlnxCtrl');
+	// const data = {id:1,msg:'teste'};
+	// var htmlJson = AdmService.formatJson(data);
+	// AdmService.showHtmlJson(htmlJson);
 
 }]);
 
@@ -60,9 +107,8 @@ function ($scope,  $location,  Shell,  AdmService) {
 	$scope.txtCmd = "\'use strict\'\n"+
 		"var db = require(\'./app/db\').get();\n\n"+
 		"exports.execute=function(showReturn) {\n"+
-		"\tdb.songs.findOne({artist:\'CREED\'},function (err, doc) {\n"+
-		"\tshowReturn(err,doc);\n"+
-		"\t});\n"+
+		"\tvar resp = db.get('posts').find({ id: 123 }).value();\n"+
+		"\tshowReturn(null,resp); // showReturn(err,resp);\n"+
 		"}";
 
 	// $scope.txtCmd

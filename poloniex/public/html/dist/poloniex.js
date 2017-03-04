@@ -1014,12 +1014,29 @@ function ($routeProvider) {
 		resolve:{
 			validRole: ['secAuth', function (secAuth) { secAuth.validRole('ROLE_ADM_ROCK'); }],
 		}
-		});
+	});
+	
+	$routeProvider.when('/adm/plnx', {
+		templateUrl: 'html/templates/adm/plnx.tpl.html',
+		controller:'PlnxCtrl',
+		resolve:{
+			validRole: ['secAuth', function (secAuth) { secAuth.validRole('ROLE_ADM_ROCK'); }],
+		}
+	});
+	
 }]);
 
 angular.module('adm.module').controller('AdmCtrl',
 		['$scope', '$location',
 function ($scope,  $location) {
+
+}]);
+
+angular.module('adm.module').controller('PlnxCtrl',
+		['$scope',
+function ($scope) {
+
+	console.log('ok in PlnxCtrl');
 
 }]);
 
@@ -1048,9 +1065,8 @@ function ($scope,  $location,  Shell,  AdmService) {
 	$scope.txtCmd = "\'use strict\'\n"+
 		"var db = require(\'./app/db\').get();\n\n"+
 		"exports.execute=function(showReturn) {\n"+
-		"\tdb.songs.findOne({artist:\'CREED\'},function (err, doc) {\n"+
-		"\tshowReturn(err,doc);\n"+
-		"\t});\n"+
+		"\tvar resp = db.get('posts').find({ id: 123 }).value();\n"+
+		"\tshowReturn(null,resp); // showReturn(err,resp);\n"+
 		"}";
 
 	// $scope.txtCmd

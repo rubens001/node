@@ -1,4 +1,8 @@
-exemplos shell
+
+# Ref shortcuts : https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf
+# find file : CTRL+P
+
+# exemplos shell
 
 'use strict'
 var db = require('./app/db').get();
@@ -32,9 +36,7 @@ var db = require('./app/db').get();
 
 exports.execute=function(showReturn) {
 // find a post
-var resp = db.get('posts')
-    .find({ id: 123 })
-    .value();
+var resp = db.get('posts').find({ id: 123 }).value();
 showReturn(null,resp);
 }
 
@@ -58,7 +60,7 @@ var resp = db.get('posts').find(function (o) { return o.id > 1;}).value();
 showReturn(null,resp);
 }
 
-# map - retorna null no array quando nao obedece o criterio
+# map - retorna null na collection quando nao obedece o criterio
 'use strict'
 var db = require('./app/db').get();
 

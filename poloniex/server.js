@@ -204,9 +204,7 @@ var SampleApp = function() {
         });
     };
 
-};   /*  Sample Application.  */
-
-
+};
 
 /**
  *  main():  Main code.
@@ -215,16 +213,6 @@ var zapp = new SampleApp();
 
 zapp.initialize();
 zapp.start();
-
-// Initialize MongoDB
-//var db = require('./app/db');
-//db.initialize(function(err,database){
-//  if (!err) {
-//    zapp.initialize();
-//    zapp.start();
-    // setInterval(function(){ cronPostRadio(); }, 120000); // 120000 = 2min
-//  }
-//});
 
 function cronPostRadio() {
   var radioService=require('./service/radio');
