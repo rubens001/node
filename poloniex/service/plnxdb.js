@@ -42,12 +42,15 @@ function stopPlnxTicker() {
 
 function tickerCB(err,data) {
 	if (err) { console.error('tickerCB err=',err); return; }
-  data.date = new Date().toISOString();
-  db.get('trades').push(data).last().write();
+  
+  var data2 = {date:new Date().toISOString()};
+  data2.USDT_BTC = data.USDT_BTC;
+  db.get('trades').push(data2).last().write();
 }
 
 function plnxCsv() {
   var stream = fs.createWriteStream("/tmp/trades.csv");
+  stream.write("date,trade,id,last,lowestAsk,highestBid,percentChange,baseVolume,quoteVolume,isFrozen,high24hr,low24hr\n");
   db.get('trades').value().forEach(function (obj) {
     var str = obj.date + ',';
     for(var key in obj){
@@ -59,7 +62,6 @@ function plnxCsv() {
          }
       }
    }
-   /// write
    stream.write(str + "\n");
   });
   stream.end();

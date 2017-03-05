@@ -1,6 +1,23 @@
 
 # Ref shortcuts : https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf
 # find file : CTRL+P
+ 
+# ex publics : 
+https://poloniex.com/public?command=returnTicker
+https://poloniex.com/public?command=return24hVolume
+https://poloniex.com/public?command=returnTradeHistory&currencyPair=BTC_NXT&start=1410158341&end=1410499372
+
+https://public.poloniex.com/?command=returnTradeHistory&currencyPair=USDT_BTC
+
+candle 5min
+https://poloniex.com/public?command=returnChartData&currencyPair=USDT_BTC&start=1488679800&end=9999999999&period=300
+
+candle 15min
+https://poloniex.com/public?command=returnChartData&currencyPair=USDT_BTC&start=1485892800&end=9999999999&period=900
+
+var d = new Date(2014,08,12); console.log(d.getTime());
+result : 1410490800000
+as datas informadas são getTime() / 1000
 
 # exemplos shell
 
