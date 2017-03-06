@@ -75,6 +75,15 @@ function ($scope,  $http,  AdmService,  AppService) {
 		});
 	};
 
+	$scope.onPushPlnx = function() {
+		$http({method: 'GET',url: 'api/plnxdb/push'
+		}).then(function successCallback(response) {
+			console.log('plnx ok, data=', response.data);
+		}, function errorCallback(response) {
+			console.error('plnx ERR response=',response);
+		});
+	};
+
 	// console.log('ok in PlnxCtrl');
 	// const data = {id:1,msg:'teste'};
 	// var htmlJson = AdmService.formatJson(data);

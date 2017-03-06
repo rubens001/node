@@ -19,6 +19,9 @@ var d = new Date(2014,08,12); console.log(d.getTime());
 result : 1410490800000
 as datas informadas são getTime() / 1000
 
+# OBS
+somente olhando resposta do ticker ja da pra escolher uma moeda que varia bastante por dia
+
 # exemplos shell
 
 'use strict'
