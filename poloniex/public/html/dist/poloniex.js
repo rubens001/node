@@ -1033,10 +1033,49 @@ function ($scope,  $location) {
 }]);
 
 angular.module('adm.module').controller('PlnxCtrl',
-		['$scope',
-function ($scope) {
+		['$scope','$http','AdmService','AppService',
+function ($scope,  $http,  AdmService,  AppService) {
 
-	console.log('ok in PlnxCtrl');
+	$scope.onStartPlnx = function() {
+		$http({method: 'GET',url: 'api/plnxdb/start'
+		}).then(function successCallback(response) {
+			console.log('plnx ok, data=', response.data);
+		}, function errorCallback(response) {
+			console.error('plnx ERR response=',response);
+		});
+	};
+
+	$scope.onStopPlnx = function() {
+		$http({method: 'GET',url: 'api/plnxdb/stop'
+		}).then(function successCallback(response) {
+			console.log('plnx ok, data=', response.data);
+		}, function errorCallback(response) {
+			console.error('plnx ERR response=',response);
+		});
+	};
+
+	$scope.onCsvPlnx = function() {
+		$http({method: 'GET',url: 'api/plnxdb/csv'
+		}).then(function successCallback(response) {
+			console.log('plnx ok, data=', response.data);
+		}, function errorCallback(response) {
+			console.error('plnx ERR response=',response);
+		});
+	};
+
+	$scope.onPushPlnx = function() {
+		$http({method: 'GET',url: 'api/plnxdb/push'
+		}).then(function successCallback(response) {
+			console.log('plnx ok, data=', response.data);
+		}, function errorCallback(response) {
+			console.error('plnx ERR response=',response);
+		});
+	};
+
+	// console.log('ok in PlnxCtrl');
+	// const data = {id:1,msg:'teste'};
+	// var htmlJson = AdmService.formatJson(data);
+	// AdmService.showHtmlJson(htmlJson);
 
 }]);
 

@@ -100,13 +100,13 @@ function plnxPush() {
     wssession.subscribe('BTC_XMR', marketEvent);
     wssession.subscribe('ticker', tickerEvent);
     wssession.subscribe('trollbox', trollboxEvent);
-  }
+  };
 
   connection.open();
 
   connection.onclose = function () {
     console.log("### Websocket connection closed");
-  }
+  };
   
 }
 
