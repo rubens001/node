@@ -22,6 +22,12 @@ as datas informadas são getTime() / 1000
 # OBS
 somente olhando resposta do ticker ja da pra escolher uma moeda que varia bastante por dia
 
+# transformar csv
+cd /home/rubens/Documents/dbjson
+cp trades.csv trades2.csv
+sed -i -e 's/,/;/g' trades2.csv 
+sed -i -e 's/[.]/,/g' trades2.csv
+
 # exemplos shell
 
 'use strict'

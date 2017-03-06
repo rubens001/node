@@ -59,23 +59,34 @@ function tickerCB(err,data) {
 
 // cria csv com conteudo de lowdb
 function plnxCsv() {
+  const decChar = ',';
   console.log('### csv : ' + config.homePath + '/Documents/dbjson/trades.csv');
   var stream = fs.createWriteStream(config.homePath + '/Documents/dbjson/trades.csv');
-  stream.write("date,id,last USDT_BTC,lowestAsk,highestBid,percentChange,baseVolume,quoteVolume,isFrozen,high24hr,low24hr\n");
+  stream.write("date\tid\tlast USDT_BTC\tlowestAsk\thighestBid\tpercentChange\tbaseVolume\tquoteVolume\tisFrozen\thigh24hr\tlow24hr\t\n");
   db.get('trades').value().forEach(function (obj) {
-    var str = obj.date + ',';
+    var dtRegional = obj.date.replace('T',' ');
+    dtRegional = dtRegional.replace('Z','');
+    var str = dtRegional + '\t';
     for(var key in obj){
       if (key != 'date') {
         // str = str+key+',';
         var obj2 = obj[key];
          for(var key2 in obj2){
-           str = str+Number(obj2[key2])+',';
+           str = str+obj2[key2]+'\t';
          }
       }
    }
-   stream.write(str + "\n");
+   stream.write(replaceAll(str,'.',decChar) + "\n");
   });
   stream.end();
+}
+
+function escapeRegExp(str) {
+    return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}
+
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
 
 // push subscribe push notification via autobahn 
