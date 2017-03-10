@@ -55,10 +55,6 @@ function ($scope,  $rootScope,  AppService,  UserLogged,  ModalBox,  UserProfile
 	};
 
 	$scope.onLogin = function() {
-		// controle menu responsivo
-//		if ($scope.isCollapsed) {
-//			$scope.isCollapsed=false;
-//		}
 
 		var onLoginOk = function (user) {
 	    	if (user.passRec) {

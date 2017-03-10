@@ -61,7 +61,7 @@ function tickerCB(err,data) {
   }
 }
 
-// TODO: Obter "Documents" do user e colocar em config
+// TODO: Obter "Documents" do user e colocar em config :-)
 // cria csv com conteudo de lowdb
 function plnxCsv() {
   const decChar = ',';
