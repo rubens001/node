@@ -6,6 +6,7 @@ var fs = require('fs');
 
 var plnxInterval;
 var wssession;
+var last_USDT_BTC=0;
 
 exports.get=function(req,res,next) {
   if (!session.validRole(req,res,'ROLE_ADM_ROCK')){return;}
@@ -54,7 +55,10 @@ function tickerCB(err,data) {
   var data2 = {date:new Date().toISOString()};
   data2.USDT_BTC = data.USDT_BTC;
   // data2.USDT_LTC = data.USDT_LTC;
-  db.get('trades').push(data2).last().write();
+  if (last_USDT_BTC != data.USDT_BTC.last) {
+    last_USDT_BTC = data.USDT_BTC.last;
+    db.get('trades').push(data2).last().write();
+  }
 }
 
 // cria csv com conteudo de lowdb
