@@ -7,6 +7,8 @@ var fs = require('fs');
 var plnxInterval;
 var wssession;
 var last_USDT_BTC=0;
+var requestDate;
+var tickCount=0;
 
 exports.get=function(req,res,next) {
   if (!session.validRole(req,res,'ROLE_ADM_ROCK')){return;}
@@ -40,7 +42,10 @@ exports.post=function(req,res,next) {
 
 // start interval
 function startPlnxTicker() {
-  plnxInterval = setInterval(function(){ plnx.returnTicker(tickerCB); }, 1000);
+  plnxInterval = setInterval(function(){
+    requestDate = new Date().toISOString();
+    tickCount++;
+    plnx.returnTicker(tickerCB); }, 1000);
 }
 
 // stop interval
@@ -52,7 +57,7 @@ function stopPlnxTicker() {
 function tickerCB(err,data) {
 	if (err) { console.error('tickerCB err=',err); return; }
   
-  var data2 = {date:new Date().toISOString()};
+  var data2 = {date:requestDate,tickCount:tickCount};
   data2.USDT_BTC = data.USDT_BTC;
   // data2.USDT_LTC = data.USDT_LTC;
   if (last_USDT_BTC != data.USDT_BTC.last) {
