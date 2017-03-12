@@ -71,11 +71,11 @@ function plnxCsv() {
   const decChar = ',';
   console.log('### csv : ' + config.homePath + '/Documents/dbjson/trades.csv');
   var stream = fs.createWriteStream(config.homePath + '/Documents/dbjson/trades.csv');
-  stream.write("date\tid\tlast USDT_BTC\tlowestAsk\thighestBid\tpercentChange\tbaseVolume\tquoteVolume\tisFrozen\thigh24hr\tlow24hr\t\n");
+  stream.write("date\ttickCount\tid\tlast USDT_BTC\tlowestAsk\thighestBid\tpercentChange\tbaseVolume\tquoteVolume\tisFrozen\thigh24hr\tlow24hr\t\n");
   db.get('trades').value().forEach(function (obj) {
     var dtRegional = obj.date.replace('T',' ');
     dtRegional = dtRegional.replace('Z','');
-    var str = dtRegional + '\t';
+    var str = dtRegional + '\t' + obj.tickCount + '\t';
     for(var key in obj){
       if (key != 'date') {
         // str = str+key+',';
@@ -87,6 +87,7 @@ function plnxCsv() {
    }
    stream.write(replaceAll(str,'.',decChar) + "\n");
   });
+  onsole.log('### csv : finished');
   stream.end();
 }
 
