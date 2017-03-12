@@ -3,6 +3,7 @@ var config = require('../app/config').get();
 var session=require('../app/session');
 var plnx = require('plnx');
 var fs = require('fs');
+var request = require('request');
 
 var plnxInterval;
 var wssession;
@@ -53,7 +54,7 @@ function stopPlnxTicker() {
   clearInterval(plnxInterval);
 }
 
-// grava lowdb
+// grava lowdb / mongodb
 function tickerCB(err,data) {
 	if (err) { console.error('tickerCB err=',err); return; }
   
@@ -63,7 +64,27 @@ function tickerCB(err,data) {
   if (last_USDT_BTC != data.USDT_BTC.last) {
     last_USDT_BTC = data.USDT_BTC.last;
     db.get('trades').push(data2).last().write();
+    // dbm.trades.insert(data2);
+    // POST mUri + '/collections/trades' + '?apiKey=' + config.apiKey
+    var options = {
+      uri: config.mUri + '/collections/trades' + '?apiKey=' + config.apiKey,
+      method: 'POST',
+      json: data2
+    };
+    request(options, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        // console.log(body.id) // Print the shortened url.
+      } else {
+        console.error('ERROR post mongolab, err=',error);
+      }
+    });
   }
+
+  // exclui lanctos a mais de 4 horas
+  var d = new Date();
+  d.setHours(d.getHours() - 4);
+  var dts = d.toISOString();
+  db.get('trades').remove(function(o){if (o.date > dts) return o;}).write();
 }
 
 // cria csv com conteudo de lowdb

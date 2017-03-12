@@ -32,7 +32,7 @@ sed -i -e 's/[.]/,/g' trades2.csv
 https://konklone.io/json/
 
 
-# exemplos shell.js
+# exemplos shell.js - jsondb lowdb
 
 'use strict'
 var db = require('./app/db').get();
