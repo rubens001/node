@@ -1260,10 +1260,6 @@ function ($scope,  $rootScope,  AppService,  UserLogged,  ModalBox,  UserProfile
 	};
 
 	$scope.onLogin = function() {
-		// controle menu responsivo
-//		if ($scope.isCollapsed) {
-//			$scope.isCollapsed=false;
-//		}
 
 		var onLoginOk = function (user) {
 	    	if (user.passRec) {
@@ -1680,6 +1676,26 @@ function ($scope,  $modalInstance,   AppService,   contactItem) {
 		console.log("onContactErr", result, status, headers, config);
 		AppService.notify("msg.process.error", "error", {name: "envio"}, "#message");
 	}
+}]);
+;angular.module('plnx.module', []);
+
+angular.module('plnx.module').config(
+		['$routeProvider',
+function ($routeProvider) {
+
+	$routeProvider.when('/plnx', {
+		templateUrl: 'html/templates/plnx/plnx.tpl.html',
+	    controller:'PlnxCtrl'
+	  });
+}]);
+
+//Pagina Home (controller tambem usado para revalidacao de login)
+angular.module('plnx.module').controller('PlnxCtrl',
+		['$scope', '$location',
+function ($scope,  $location) {
+
+	console.log('### PlnxCtrl');
+
 }]);
 ;angular.module('songs.module', []);
 

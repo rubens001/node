@@ -1,0 +1,17 @@
+<div class="col-xs-12">
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Data</th>
+				<th>Currency</th>
+				<th>last</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-ng-repeat="item in music.list">
+				<td>{{item.date | date:'dd/MM/yyyy hh:mm'}}</td>
+				<td>{{item.singer}}</td>
+				<td>{{item.song}}</td>
+			</tr>
+	</table>
+</div>

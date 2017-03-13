@@ -1,7 +1,7 @@
 angular.module('app', [ 'ngRoute', 'ngSanitize', 'ui.bootstrap',
 	'Commom.Factory','security.authorization',
 	'home.module','songs.module','adm.module','service.modalbox',
-	'service.app','service.login','userlogged.module'
+	'service.app','service.login','userlogged.module','plnx.module'
 	]);
 
 //security interceptor
