@@ -22,6 +22,15 @@ as datas informadas são getTime() / 1000
 # OBS
 somente olhando resposta do ticker ja da pra escolher uma moeda que varia bastante por dia
 
+# init
+WRITE_LOW=true WRITE_MONGO=true node server.js
+
+# start
+curl 'http://localhost:9191/api/plnxdb/start' -H 'Accept: application/json, text/plain, */*' -H 'X-Auth-Token: ceb6e6eb-1bab-46cb-a0da-4c49270a48ba'
+
+# stop
+curl 'http://localhost:9191/api/plnxdb/stop' -H 'Accept: application/json, text/plain, */*' -H 'X-Auth-Token: ceb6e6eb-1bab-46cb-a0da-4c49270a48ba'
+
 # transformar csv
 cd /home/rubens/Documents/dbjson
 cp trades.csv trades2.csv
