@@ -28,7 +28,11 @@ cp trades.csv trades2.csv
 sed -i -e 's/,/;/g' trades2.csv 
 sed -i -e 's/[.]/,/g' trades2.csv
 
-# exemplos shell
+# json -> csv
+https://konklone.io/json/
+
+
+# exemplos shell.js - jsondb lowdb
 
 'use strict'
 var db = require('./app/db').get();

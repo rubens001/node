@@ -3,10 +3,13 @@ var config = require('../app/config').get();
 var session=require('../app/session');
 var plnx = require('plnx');
 var fs = require('fs');
+var request = require('request');
 
 var plnxInterval;
 var wssession;
 var last_USDT_BTC=0;
+var requestDate;
+var tickCount=0;
 
 exports.get=function(req,res,next) {
   if (!session.validRole(req,res,'ROLE_ADM_ROCK')){return;}
@@ -40,7 +43,10 @@ exports.post=function(req,res,next) {
 
 // start interval
 function startPlnxTicker() {
-  plnxInterval = setInterval(function(){ plnx.returnTicker(tickerCB); }, 1000);
+  plnxInterval = setInterval(function(){
+    requestDate = new Date().toISOString();
+    tickCount++;
+    plnx.returnTicker(tickerCB); }, 1000);
 }
 
 // stop interval
@@ -48,17 +54,37 @@ function stopPlnxTicker() {
   clearInterval(plnxInterval);
 }
 
-// grava lowdb
+// grava lowdb / mongodb
 function tickerCB(err,data) {
 	if (err) { console.error('tickerCB err=',err); return; }
   
-  var data2 = {date:new Date().toISOString()};
+  var data2 = {date:requestDate,tickCount:tickCount};
   data2.USDT_BTC = data.USDT_BTC;
   // data2.USDT_LTC = data.USDT_LTC;
   if (last_USDT_BTC != data.USDT_BTC.last) {
     last_USDT_BTC = data.USDT_BTC.last;
     db.get('trades').push(data2).last().write();
+    // dbm.trades.insert(data2);
+    // POST mUri + '/collections/trades' + '?apiKey=' + config.apiKey
+    var options = {
+      uri: config.mUri + '/collections/trades' + '?apiKey=' + config.apiKey,
+      method: 'POST',
+      json: data2
+    };
+    request(options, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        // console.log(body.id) // Print the shortened url.
+      } else {
+        console.error('ERROR post mongolab, err=',error);
+      }
+    });
   }
+
+  // exclui lanctos a mais de 4 horas
+  var d = new Date();
+  d.setHours(d.getHours() - 4);
+  var dts = d.toISOString();
+  db.get('trades').remove(function(o){if (o.date > dts) return o;}).write();
 }
 
 // TODO: Obter "Documents" do user e colocar em config :-)
@@ -67,11 +93,11 @@ function plnxCsv() {
   const decChar = ',';
   console.log('### csv : ' + config.homePath + '/Documents/dbjson/trades.csv');
   var stream = fs.createWriteStream(config.homePath + '/Documents/dbjson/trades.csv');
-  stream.write("date\tid\tlast USDT_BTC\tlowestAsk\thighestBid\tpercentChange\tbaseVolume\tquoteVolume\tisFrozen\thigh24hr\tlow24hr\t\n");
+  stream.write("date\ttickCount\tid\tlast USDT_BTC\tlowestAsk\thighestBid\tpercentChange\tbaseVolume\tquoteVolume\tisFrozen\thigh24hr\tlow24hr\t\n");
   db.get('trades').value().forEach(function (obj) {
     var dtRegional = obj.date.replace('T',' ');
     dtRegional = dtRegional.replace('Z','');
-    var str = dtRegional + '\t';
+    var str = dtRegional + '\t' + obj.tickCount + '\t';
     for(var key in obj){
       if (key != 'date') {
         // str = str+key+',';
@@ -83,6 +109,7 @@ function plnxCsv() {
    }
    stream.write(replaceAll(str,'.',decChar) + "\n");
   });
+  onsole.log('### csv : finished');
   stream.end();
 }
 
