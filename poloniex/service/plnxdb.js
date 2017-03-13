@@ -63,21 +63,29 @@ function tickerCB(err,data) {
   // data2.USDT_LTC = data.USDT_LTC;
   if (last_USDT_BTC != data.USDT_BTC.last) {
     last_USDT_BTC = data.USDT_BTC.last;
-    db.get('trades').push(data2).last().write();
-    // dbm.trades.insert(data2);
+
+    // LowDB
+    if (config.writeLow) {
+      db.get('trades').push(data2).last().write();
+    }
+    
+    // MongoDB
     // POST mUri + '/collections/trades' + '?apiKey=' + config.apiKey
     var options = {
       uri: config.mUri + '/collections/trades' + '?apiKey=' + config.apiKey,
       method: 'POST',
       json: data2
     };
-    request(options, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        // console.log(body.id) // Print the shortened url.
-      } else {
-        console.error('ERROR post mongolab, err=',error);
-      }
-    });
+    if (config.writeMongo) {
+      request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          // console.log(body.id) // Print the shortened url.
+        } else {
+          console.error('ERROR post mongolab, err=',error);
+        }
+      });
+    }
+
   }
 
   // exclui lanctos a mais de 4 horas
