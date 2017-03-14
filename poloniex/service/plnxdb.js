@@ -43,6 +43,7 @@ exports.post=function(req,res,next) {
 
 // start interval
 function startPlnxTicker() {
+  console.log('### startPlnxTicker');
   plnxInterval = setInterval(function(){
     requestDate = new Date().toISOString();
     tickCount++;
@@ -51,6 +52,7 @@ function startPlnxTicker() {
 
 // stop interval
 function stopPlnxTicker() {
+  console.log('### stopPlnxTicker');
   clearInterval(plnxInterval);
 }
 
@@ -92,7 +94,7 @@ function tickerCB(err,data) {
   var d = new Date();
   d.setHours(d.getHours() - 4);
   var dts = d.toISOString();
-  db.get('trades').remove(function(o){if (o.date > dts) return o;}).write();
+  db.get('trades').remove(function(o){if (o.date < dts) return o;}).write();
 }
 
 // TODO: Obter "Documents" do user e colocar em config :-)
