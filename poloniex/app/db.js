@@ -3,8 +3,10 @@ const config = require('../app/config').get();
 const low = require('lowdb');
 var db;
 if (config.inMemoryLow) {
+	console.log("### in-Memory LowDB");
 	db = low();
 } else {
+	console.log("### gile-async LowDB");
 	const storage = require('lowdb/lib/storages/file-async'); // file-async ou file-sync
 	db = low(config.dbPath, { storage:storage });
 }
