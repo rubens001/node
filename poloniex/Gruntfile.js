@@ -28,6 +28,8 @@ module.exports = function(grunt) {
                       'public/html/bower_components/angular-touch/angular-touch.min.js',
                       'public/html/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
                       'public/html/bower_components/notifyjs/dist/notify.js',
+                      'public/html/bower_components/autobahnjs/autobahn.min.js',
+                      'public/html/bower_components/lodash/dist/lodash.min.js',
                       'public/html/js/**/*.js'],
                 dest: 'public/html/dist/<%= pkg.name %>.js'
             }
