@@ -1,4 +1,4 @@
-angular.module('plnx.module', []);
+angular.module('plnx.module', ['service.wsconnect']);
 
 angular.module('plnx.module').config(
 		['$routeProvider',
@@ -12,33 +12,39 @@ function ($routeProvider) {
 
 //Pagina Home (controller tambem usado para revalidacao de login)
 angular.module('plnx.module').controller('PolnxCtrl',
-		['$scope', '$location',
-function ($scope,  $location) {
+		['$scope', '$location','WSService',
+function ($scope,   $location,  WSService) {
 
 	// _.each([1,2,3],function(o){ console.log('o=',o); });
 
-	$scope.usdtbtc=[];
+	$scope.usbc=[];
 	
-	var wsuri = "wss://api.poloniex.com";
-	var connection = new autobahn.Connection({url:wsuri,realm:"realm1"});
+	// var wsuri = "wss://api.poloniex.com";
+	// var connection = WSService.connect();
 
-	connection.onopen = function (session) {
-		session.subscribe('ticker', tickerEvent);
-	};
+	// connection.onopen = function (session) {
+	// 	session.subscribe('ticker', tickerEvent);
+	// };
 
 	$scope.onStart = function(){
-		connection.open();
+		// connection.open();
+		WSService.start([{name:'ticker', event:tickerEvent}]);
 	};
 	
 	$scope.onStop = function(){
-		connection.close();
+		// connection.close();
+		WSService.stop();
 	};
 	
 	function tickerEvent (args,kwargs) {
 		if (args[0]=='USDT_BTC') {
-			$scope.usdtbtc.push({date:new Date(),currencyPair:args[0],
+			console.log('### USDT_BTC');
+			$scope.usbc.push({date:new Date(),currencyPair:args[0],
 				last:args[1],lowestAsk:args[2],highestBid:args[3],percentChange:args[4],baseVolume:args[5],
 				quoteVolume:args[6],isFrozen:args[7],high24Hs:args[8],low24Hs:args[9]});
+			if ($scope.usbc.length > 100) {
+				$scope.usbc.splice(0,1);
+			}
 		}
 	}
 }]);

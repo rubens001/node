@@ -2260,7 +2260,7 @@ function ($scope,  $modalInstance,   AppService,   contactItem) {
 		AppService.notify("msg.process.error", "error", {name: "envio"}, "#message");
 	}
 }]);
-;angular.module('plnx.module', []);
+;angular.module('plnx.module', ['service.wsconnect']);
 
 angular.module('plnx.module').config(
 		['$routeProvider',
@@ -2274,15 +2274,15 @@ function ($routeProvider) {
 
 //Pagina Home (controller tambem usado para revalidacao de login)
 angular.module('plnx.module').controller('PolnxCtrl',
-		['$scope', '$location',
-function ($scope,  $location) {
+		['$scope', '$location','WSService',
+function ($scope,   $location,  WSService) {
 
-	console.log('underscore',window._);
+	// _.each([1,2,3],function(o){ console.log('o=',o); });
 
-	$scope.usdtbtc=[];
+	$scope.usbc=[];
 	
 	var wsuri = "wss://api.poloniex.com";
-	var connection = new autobahn.Connection({url:wsuri,realm:"realm1"});
+	var connection = WSService.connect();
 
 	connection.onopen = function (session) {
 		session.subscribe('ticker', tickerEvent);
@@ -2298,7 +2298,7 @@ function ($scope,  $location) {
 	
 	function tickerEvent (args,kwargs) {
 		if (args[0]=='USDT_BTC') {
-			$scope.usdtbtc.push({date:new Date(),currencyPair:args[0],
+			$scope.usbc.push({date:new Date(),currencyPair:args[0],
 				last:args[1],lowestAsk:args[2],highestBid:args[3],percentChange:args[4],baseVolume:args[5],
 				quoteVolume:args[6],isFrozen:args[7],high24Hs:args[8],low24Hs:args[9]});
 		}
@@ -4937,4 +4937,25 @@ function ($http,   $compile,  $interpolate,  $sce,  ModalBox,  ngProgress,  MSG_
 
 	// The return API
 	return AppService;
+} ]);
+;angular.module('service.wsconnect', ['service.app']).factory('WSService', 
+		[ 'AppService', '$location',
+function ( AppService,   $location) {
+
+	// The return API
+	function WSService() { }
+	
+	WSService.connection=null;
+
+	WSService.connect = function() {
+		var wsuri = "wss://api.poloniex.com";
+		if (!WSService.connection) {
+			WSService.connection = new autobahn.Connection({url:wsuri,realm:"realm1"});
+		}
+		
+		return connection;
+	};
+	
+	// The return API
+	return WSService;
 } ]);
