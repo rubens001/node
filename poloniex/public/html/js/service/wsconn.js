@@ -10,7 +10,7 @@ function ( AppService,   $location) {
 
 	WSService.connect = function() {
 		var wsuri = "wss://api.poloniex.com";
-		if (!WSService.connection || !WSService.isConnected()) {
+		if (!WSService.connection || !WSService.connection.isConnected()) {
 			WSService.connection = new autobahn.Connection({url:wsuri,realm:"realm1"});
 
 			WSService.connection.onopen = function (session) {

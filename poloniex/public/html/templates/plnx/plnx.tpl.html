@@ -1,19 +1,25 @@
 <div class="col-xs-12">
 	<ng-form name="plxForm" class="form-horizontal" role="form">
 		<div class="form-group">
-			<label class="col-sm-3 control-label">start</label>
-			<span class="col-sm-4 col-xs-6">
+			<label class="col-xs-1 control-label">ticker</label>
+			<span class="col-xs-1">
 				<button type="button" class="btn btn-success w100"
 					ng-click="onStart()">
 					<b><i class="fa fa-play"></i></b> start
 				</button>
 			</span>
-			<span class="col-sm-4 col-xs-6">
+			<span class="col-xs-1">
 				<button type="button" class="btn btn-success w100"
 					ng-click="onStop()">
 					<b><i class="fa fa-stop"></i></b> stop
 				</button>
 			</span>
+			<label class="col-xs-3 control-label">last low/high 24hlow/high</label>
+			<span class="badge">{{tick.last}}</span>
+			<span class="badge">{{tick.lowestAsk}}</span>
+			<span class="badge">{{tick.highestBid}}</span>
+			<span class="badge">{{tick.low24hr}}</span>
+			<span class="badge">{{tick.high24hr}}</span>
 		</div>
 	</ng-form>
 
