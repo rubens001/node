@@ -1,1 +1,89 @@
-casa
+<html>
+<head>
+    <script src="/html/bower_components/highcharts/js/highstock.js"></script>
+    <script src="/html/bower_components/highcharts/js/modules/exporting.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<!--
+    <s c r i p t src="https://code.highcharts.com/highcharts.js">< / s c r i p t >
+    <s c r i p t src="https://code.highcharts.com/modules/exporting.js">< / s c r i p t >-->
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        var lastQuote;
+
+        $.getJSON( 'https://poloniex.com/public?command=returnTicker', function( data ) {
+                var firstQuote = new Number(data.USDT_BTC.last).valueOf();
+                createChart(firstQuote);
+            });
+            
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+        // Create the chart
+        function createChart(firstQuote) {
+            Highcharts.stockChart('container', {
+                credits: {enabled: false},
+                chart: {events: {
+                        load: function () {
+                            // set up the updating of the chart each second
+                            var series = this.series[0];
+                            setInterval(function () {
+                                callTicker(series);
+                            }, 1000);
+                        }
+                    }
+                },
+                rangeSelector: {buttons: [
+                    {count: 1,type: 'minute',text: '1M'},
+                    {count: 5,type: 'minute',text: '5M'},
+                    {type: 'all',text: 'All'}],
+                    inputEnabled: false,selected: 0
+                },
+                title: {text: 'USDT_BTC/s'},
+                exporting: {enabled: false},
+                series: [{
+                    name: 'quote',
+                    data: (function () {
+                        // generate an array of random data
+                        var data = [],
+                            time = (new Date()).getTime(),
+                            i;
+
+                        // data.push(time + i * 1000,firstQuote);
+                        for (i = -999; i <= 0; i += 1) {
+                            data.push([
+                                time + i * 1000,
+                                firstQuote
+                            ]);
+                        }
+                        return data;
+                    }())
+                }]
+            });
+        }
+
+        // 
+        function callTicker(series) {
+            $.getJSON( 'https://poloniex.com/public?command=returnTicker', function( data ) {
+                setSeries(series,data.USDT_BTC.last);
+                });
+        }
+
+        function setSeries(series,last){
+            // mostrar somente as alteracoes
+            // if (last == lastQuote) {
+            //     return;
+            // }
+            lastQuote = last;
+            var x = (new Date()).getTime(), // current time
+                y = new Number(last).valueOf();
+            console.log('return ticker new last=',new Number(last).valueOf());
+            series.addPoint([x, y], true, true);
+        }
+    </script>
+</body>
+</html>
