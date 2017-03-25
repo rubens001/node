@@ -2,6 +2,7 @@
 <head>
     <script src="/html/bower_components/highcharts/js/highstock.js"></script>
     <script src="/html/bower_components/highcharts/js/modules/exporting.js"></script>
+    <script src="/html/bower_components/autobahnjs/autobahn.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <!--
     <s c r i p t src="https://code.highcharts.com/highcharts.js">< / s c r i p t >
@@ -10,13 +11,43 @@
 <body>
     <div id="container"></div>
     <script>
-        var lastQuote;
+        var lastQuote, lastTick;
+        var wsuri = "wss://api.poloniex.com";
 
+        // obtem 1a cotacao e inicializa chart
         $.getJSON( 'https://poloniex.com/public?command=returnTicker', function( data ) {
                 var firstQuote = new Number(data.USDT_BTC.last).valueOf();
+                lastTick = firstQuote;
                 createChart(firstQuote);
             });
             
+        // conexao WAMP
+        window.connection = new autobahn.Connection({
+            url: wsuri,
+            realm: "realm1"
+        });
+        window.connection.onopen = function (session) {
+            session.subscribe('ticker', tickerEvent);
+        }
+        window.connection.onclose = function() {
+            //console.log("Websocket connection closed (or reset)");
+        }
+
+        function startWAMPTicker() {
+            window.connection.open();
+        }
+        function stopWAMPTicker() {
+            window.connection.close();
+        }
+
+        function tickerEvent (args, kwargs) {
+            if (args[0] != 'USDT_BTC') {
+                return;
+            }
+            lastTick = new Number(args[1]).valueOf();
+            // console.log('tickerEvent ',args);
+        } 
+        
         Highcharts.setOptions({
             global: {
                 useUTC: false
@@ -68,22 +99,27 @@
 
         // 
         function callTicker(series) {
-            $.getJSON( 'https://poloniex.com/public?command=returnTicker', function( data ) {
-                setSeries(series,data.USDT_BTC.last);
-                });
+            // $.getJSON( 'https://poloniex.com/public?command=returnTicker', function( data ) {
+            //     setSeries(series,data.USDT_BTC.last);
+            //     });
+            setSeries(series,lastTick);
         }
 
         function setSeries(series,last){
             // mostrar somente as alteracoes
-            // if (last == lastQuote) {
-            //     return;
-            // }
+            if (last != lastQuote) {
+                console.log('### last=' + last);
+            }
             lastQuote = last;
+
             var x = (new Date()).getTime(), // current time
                 y = new Number(last).valueOf();
-            console.log('return ticker new last=',new Number(last).valueOf());
+            // console.log('return ticker new last=',new Number(last).valueOf());
             series.addPoint([x, y], true, true);
         }
     </script>
+
+    <input type="button" value=" start " onclick="startWAMPTicker()" />&nbsp;
+    <input type="button" value=" stop " onclick="stopWAMPTicker()" />
 </body>
 </html>
