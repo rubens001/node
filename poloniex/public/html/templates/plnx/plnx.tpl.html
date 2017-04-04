@@ -23,19 +23,27 @@
 		</div>
 	</ng-form>
 
+	<div id="chartContainer1" style="width:100%; height:400px;"></div>
+
 	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>
 				<th>Data</th>
-				<th>Currency</th>
 				<th>last</th>
+				<th>lowestAsk</th>
+				<th>highestBid</th>
+				<th>low24hr</th>
+				<th>high24hr</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr data-ng-repeat="item in music.list">
-				<td>{{item.date | date:'dd/MM/yyyy hh:mm'}}</td>
-				<td>{{item.singer}}</td>
-				<td>{{item.song}}</td>
+			<tr data-ng-repeat="item in usbc | orderBy: '-date' | limitTo:10">
+				<td>{{item.date | date:'dd/MM/yyyy hh:mm:ss'}}</td>
+				<td>{{item.last}}</td>
+				<td>{{item.lowestAsk}}</td>
+				<td>{{item.lowestAsk}}</td>
+				<td>{{item.low24hr}}</td>
+				<td>{{item.high24hr}}</td>
 			</tr>
 	</table>
 

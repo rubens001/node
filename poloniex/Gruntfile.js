@@ -30,6 +30,8 @@ module.exports = function(grunt) {
                       'public/html/bower_components/notifyjs/dist/notify.js',
                       'public/html/bower_components/autobahnjs/autobahn.min.js',
                       'public/html/bower_components/lodash/dist/lodash.min.js',
+                      'public/html/bower_components/highcharts/js/highcharts.js',
+                      'public/html/bower_components/highcharts/js/modules/exporting.js',
                       'public/html/js/**/*.js'],
                 dest: 'public/html/dist/<%= pkg.name %>.js'
             }
