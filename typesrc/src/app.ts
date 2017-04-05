@@ -78,7 +78,6 @@ export class Server {
     this.app.listen(this.app.port);
 
     console.log('### config path ' + path.join(__dirname, "public"));
-    console.log('listen port : ' + this.app.port);
   }
 
   /**
