@@ -1,7 +1,11 @@
+#!/usr/bin/env node
 import { style } from 'typestyle';
-import { MyClass } from './src/index';
+import { MyClass } from './src/my-class';
+import { Server } from './src/app';
 
-console.log('### testano index 2');
+//module dependencies.
+var app = require("./src/app");
+var debug = require("debug")("express:server");
+var http = require("http");
 
-let myClass = new MyClass();
-myClass.metodo();
+let server : Server = Server.bootstrap();
