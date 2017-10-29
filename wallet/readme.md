@@ -5,3 +5,6 @@ instalacao lib bitcoin:
 $ npm install bitcoinjs-lib --save
 ```
 
+A página wallet.html foi obtida do site https://www.bitaddress.org
+e salva para utilizacao offline
+
