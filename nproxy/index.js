@@ -1,5 +1,7 @@
 const https = require('https');
 const fs = require("fs");
+const r = fs.createWriteStream('file.txt');
+// const LineTransform = require('./line-transform');
 
 // problemas ao chamar remote https com certificado autoassinado
 // set NODE_TLS_REJECT_UNAUTHORIZED=0
@@ -19,18 +21,42 @@ function onRequest(request, response) {
   delete request.headers.host;
   delete request.headers.connection; // keep-alive
   const options = {
-    hostname: '127.0.0.1',
-    port: 9000,
+    hostname: 'portal.brq.com', // 'portal.brq.com', // '127.0.0.1',
+    port: 443, // 443, // 9000,
     path: request.url,
     method: request.method,
     headers: request.headers
   };
 
   const proxy = https.request(options, function (res) {
-    response.writeHead(res.statusCode, res.headers)
-    res.pipe(response, {
-      end: true
-    });
+    console.log('res status', res.statusCode, res.httpVersion, res.trailers);
+    response.writeHead(res.statusCode, res.headers);
+
+    // if (!(res.headers['content-type'] && ['text','application/json','application/x-javascript'].filter(t => res.headers['content-type'].indexOf(t) >= 0 ).length > 0 )) {
+    //   res.pipe(response, { end: true });
+    // } else {
+    //   // const lineTransform = new LineTransform();
+    //   // res.pipe(lineTransform).pipe(response, { end: true });
+    //   let body = '';
+    //   res.on('data', chunk => {
+    //     body = body + chunk.toString('utf8');
+    //     console.log('### body',res.headers['content-type'], body);
+    //   });
+    //   res.on('end', () => { response.write(body); response.end(); } );
+    // }
+
+    res.pipe(response, { end: true });
+
+    // res.pipe(response, { end: true });
+
+    // let body = [];
+    // res.on('data', chunk => body.push(chunk));
+    // res.on('end', () => {
+    //   // console.log('### body', body);
+    //   for (const b of body) {
+    //     response.write(body);
+    //   }
+    //   response.end(); } );
   });
 
   request.pipe(proxy, {
@@ -51,3 +77,4 @@ const server = https.createServer(optionSSL, function (requ, resp) {
   });
   
   server.listen(9000);
+  console.log('redirect 8000 -> 9000');
