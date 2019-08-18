@@ -1,0 +1,19 @@
+{
+  "name": "nproxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "startp": "nodemon serverh.js"
+  },
+  "author": "Rubens Zanatta <rubenz001@hotmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "http-proxy": "^1.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
