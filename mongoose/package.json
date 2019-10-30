@@ -11,6 +11,6 @@
   },
   "dependencies": {
     "mongodb": "~2.0",
-    "mongoose": "^4.1.10"
+    "mongoose": "^5.7.7"
   }
 }
